@@ -1,0 +1,80 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    background-color: #050505;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  body {
+    @apply bg-secondary text-gray-200 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply relative bg-gradient-to-r from-[#AA8C2C] via-[#F3E5AB] to-[#D4AF37] text-black px-10 py-4 rounded-none transition-all duration-500 font-bold tracking-[0.2em] uppercase text-xs shadow-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:scale-[1.02] overflow-hidden z-10;
+  }
+  
+  .btn-whatsapp {
+    @apply relative border border-[#25D366]/50 bg-black/40 backdrop-blur-md text-[#25D366] px-8 py-3 rounded-none transition-all duration-500 font-light tracking-[0.2em] uppercase text-xs flex items-center justify-center gap-3 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:shadow-[0_0_20px_rgba(37,211,102,0.2)];
+  }
+
+  .btn-outline {
+    @apply relative border border-[#D4AF37]/50 text-[#D4AF37] bg-transparent px-10 py-4 rounded-none transition-all duration-500 font-semibold tracking-[0.2em] uppercase text-xs hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-[1.02];
+  }
+
+  .glass-panel {
+    @apply bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/5 shadow-2xl;
+  }
+}
+
+/* Accesibilidad */
+html.high-contrast {
+  filter: contrast(150%) saturate(0);
+}
+
+html.highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-color: #D4AF37 !important;
+  text-decoration-thickness: 2px !important;
+  color: #D4AF37 !important;
+}
+
+html.big-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="2"><path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.45 0 .67-.54.35-.85L6.35 2.86a.5.5 0 0 0-.85.35z"/></svg>') 0 0, auto !important;
+}
+
+html.dyslexia-font * {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', Arial, Helvetica, sans-serif !important;
+  letter-spacing: 0.1em !important;
+  word-spacing: 0.2em !important;
+}
+
+html.large-line-height * {
+  line-height: 2 !important;
+}
+
+/* Reading Mask Element */
+.reading-mask-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  mask-image: linear-gradient(to bottom, black calc(var(--mouse-y, 50vh) - 50px), transparent calc(var(--mouse-y, 50vh) - 50px), transparent calc(var(--mouse-y, 50vh) + 50px), black calc(var(--mouse-y, 50vh) + 50px));
+  -webkit-mask-image: linear-gradient(to bottom, black calc(var(--mouse-y, 50vh) - 50px), transparent calc(var(--mouse-y, 50vh) - 50px), transparent calc(var(--mouse-y, 50vh) + 50px), black calc(var(--mouse-y, 50vh) + 50px));
+}
