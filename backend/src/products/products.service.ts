@@ -26,7 +26,7 @@ export class ProductsService {
   }
 
   async findAll(query: ProductQueryDto) {
-    const { search, categoryId, minPrice, maxPrice, featured, sort } = query as any;
+    const { search, categoryId, minPrice, maxPrice, featured, sort, page, limit } = query as any;
     const where: Prisma.ProductWhereInput = {};
 
     if (search) {
@@ -51,11 +51,30 @@ export class ProductsService {
       default: orderBy = { createdAt: 'desc' }; break;
     }
 
-    return this.prisma.product.findMany({
-      where,
-      orderBy,
-      include: { images: true, category: true }
-    });
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 12;
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const [data, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        orderBy,
+        skip,
+        take: limitNumber,
+        include: { images: true, category: true }
+      }),
+      this.prisma.product.count({ where })
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page: pageNumber,
+        limit: limitNumber,
+        totalPages: Math.ceil(total / limitNumber)
+      }
+    };
   }
 
   async findOne(id: string) {

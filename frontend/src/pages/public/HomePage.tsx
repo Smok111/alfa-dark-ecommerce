@@ -58,17 +58,24 @@ export const HomePage = () => {
     const fetchData = async () => {
       try {
         const [prodRes, catRes] = await Promise.all([
-          api.get('/products?featured=true'),
+          api.get('/products', { params: { featured: true, limit: 3 } }),
           api.get('/categories')
         ]);
-        // Si no hay productos destacados, mostrar algunos normales
-        let prods = prodRes.data?.data || [];
+        
+        // El interceptor envuelve en { data: ... } y el paginador también { data: ... }
+        let prods = prodRes.data?.data?.data || prodRes.data?.data || [];
+        if (!Array.isArray(prods)) prods = [];
+        
         if (prods.length === 0) {
-          const allProdRes = await api.get('/products');
-          prods = allProdRes.data?.data?.slice(0, 3) || [];
+          const allProdRes = await api.get('/products', { params: { limit: 3 } });
+          prods = allProdRes.data?.data?.data || allProdRes.data?.data || [];
+          if (!Array.isArray(prods)) prods = [];
         }
-        setProducts(prods);
-        setCategories(catRes.data?.data || []);
+        setProducts(prods.slice(0, 3));
+        
+        let cats = catRes.data?.data || [];
+        if (!Array.isArray(cats)) cats = [];
+        setCategories(cats);
       } catch (error) {
         console.error('Error fetching home data:', error);
       } finally {
@@ -162,10 +169,10 @@ export const HomePage = () => {
       </section>
 
       {/* Productos Reales o Estado Vacío */}
-      <section className="py-32 container mx-auto px-6 relative z-20 border-t border-white/5">
+      <section className="py-24 container mx-auto px-6 relative z-20 border-t border-white/5">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-20 bg-gradient-to-b from-primary/30 to-transparent" />
         
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">{t('home.exclusive_pieces')}</h2>
           <p className="text-gray-500 tracking-widest uppercase text-sm">{t('home.whatsapp_sales')}</p>
         </div>
@@ -174,12 +181,7 @@ export const HomePage = () => {
           <div className="text-center py-20">
             <div className="w-12 h-12 mx-auto border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
-        ) : products.length === 0 ? (
-          <div className="text-center py-20 border border-white/5 rounded-sm bg-black/40 backdrop-blur-sm max-w-2xl mx-auto">
-            <h3 className="text-2xl font-serif text-white mb-4">{t('home.empty_title')}</h3>
-            <p className="text-gray-500 font-light tracking-wider">{t('home.empty_desc')}</p>
-          </div>
-        ) : (
+        ) : products.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {products.map((product) => (
               <motion.div 
@@ -213,13 +215,13 @@ export const HomePage = () => {
         
         {/* About Us Section */}
         <div className="mt-32 max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-3xl font-serif text-white mb-6 uppercase tracking-widest">Sobre Nosotros</h2>
+          <h2 className="text-3xl font-serif text-white mb-6 uppercase tracking-widest">{t('home.about_title')}</h2>
           <div className="w-16 h-0.5 bg-primary mx-auto mb-8"></div>
           <p className="text-gray-400 font-light text-lg leading-relaxed mb-6">
-            ALFA DARK nació de la obsesión por crear piezas que no solo se vean bien, sino que proyecten poder, misterio y exclusividad. No hacemos joyería convencional; forjamos amuletos de alta gama para el hombre moderno que entiende que su presencia es su mejor carta de presentación.
+            {t('home.about_desc1')}
           </p>
           <p className="text-gray-400 font-light text-lg leading-relaxed">
-            Cada joya de nuestra bóveda es meticulosamente diseñada y elaborada con metales preciosos (Plata 925, Oro 18K) para garantizar durabilidad y un acabado impecable. Bienvenidos al siguiente nivel de elegancia masculina.
+            {t('home.about_desc2')}
           </p>
         </div>
 

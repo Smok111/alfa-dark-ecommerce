@@ -21,7 +21,12 @@ export class CategoriesService {
 
   async findAll() {
     return this.prisma.category.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: { products: true }
+        }
+      }
     });
   }
 
