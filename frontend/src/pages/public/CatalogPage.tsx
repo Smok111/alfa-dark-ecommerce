@@ -237,9 +237,10 @@ export const CatalogPage = () => {
                       {/* Info */}
                       <div className="text-center px-2 pb-2 mt-auto">
                         <p className="text-gray-500 font-light tracking-[0.2em] text-[10px] mb-2 uppercase">Alfa Dark</p>
-                        <h3 className="text-lg text-white/90 font-serif mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
+                        <h3 className="text-lg text-white/90 font-serif mb-2 group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
                           {product.name}
                         </h3>
+                        {product.material && <p className="text-gray-400 font-light tracking-widest text-[10px] mb-2 uppercase">{product.material}</p>}
                         <p className="text-primary font-medium tracking-widest text-lg">
                           S/ {Number(product.price).toLocaleString('es-PE', { minimumFractionDigits: 2 })}
                         </p>
