@@ -30,8 +30,13 @@ export const AdminProductsPage = () => {
         api.get('/products'),
         api.get('/categories')
       ]);
-      setProducts(prodRes.data?.data || []);
-      setCategories(catRes.data?.data || []);
+      let prods = prodRes.data?.data?.data || prodRes.data?.data || [];
+      if (!Array.isArray(prods)) prods = [];
+      setProducts(prods);
+
+      let cats = catRes.data?.data || [];
+      if (!Array.isArray(cats)) cats = [];
+      setCategories(cats);
     } catch (error) {
       console.error('Error fetching data:', error);
       showError('Error al cargar los datos');

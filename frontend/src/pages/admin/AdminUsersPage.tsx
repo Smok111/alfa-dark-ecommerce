@@ -13,7 +13,9 @@ export const AdminUsersPage = () => {
     try {
       setIsLoading(true);
       const response = await api.get('/users');
-      setUsers(response.data?.data || []);
+      let usrs = response.data?.data?.data || response.data?.data || [];
+      if (!Array.isArray(usrs)) usrs = [];
+      setUsers(usrs);
     } catch (error) {
       console.error('Error fetching users', error);
     } finally {
