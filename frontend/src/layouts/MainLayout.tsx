@@ -27,7 +27,7 @@ export const MainLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-secondary text-gray-200">
-      <header className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrolled ? 'glass-panel py-3' : 'bg-transparent py-6'}`}>
+      <header className={`fixed w-full top-0 z-50 transition-all duration-500 border-b ${scrolled ? 'bg-[#0a0a0a]/90 backdrop-blur-xl border-white/5 shadow-2xl py-3' : 'bg-transparent border-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
             <img

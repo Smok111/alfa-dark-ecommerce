@@ -14,6 +14,7 @@ import { AdminCategoriesPage } from '../pages/admin/AdminCategoriesPage';
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage';
 import { AdminCouponsPage } from '../pages/admin/AdminCouponsPage';
+import { CatalogTestPage } from '../pages/public/CatalogTestPage';
 
 export const AppRouter = () => {
   return (
@@ -22,6 +23,7 @@ export const AppRouter = () => {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="catalog" element={<CatalogPage />} />
+          <Route path="catalog-test" element={<CatalogTestPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
