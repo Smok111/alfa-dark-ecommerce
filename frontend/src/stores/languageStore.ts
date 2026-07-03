@@ -40,7 +40,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'home.explore_all': 'Explorar todas las piezas',
     'home.about_title': 'Sobre Nosotros',
     'home.about_desc1': 'ALFA DARK nació de la obsesión por crear piezas que no solo se vean bien, sino que proyecten poder, misterio y exclusividad. No hacemos joyería convencional; forjamos amuletos de alta gama para el hombre moderno que entiende que su presencia es su mejor carta de presentación.',
-    'home.about_desc2': 'Cada joya de nuestra bóveda es meticulosamente diseñada y elaborada con metales preciosos (Plata 925, Oro 18K) para garantizar durabilidad y un acabado impecable. Bienvenidos al siguiente nivel de elegancia masculina.',
+    'home.about_desc2': 'Cada joya de nuestra bóveda es meticulosamente diseñada y recubierta con Oro 18K de la más alta calidad, garantizando un acabado deslumbrante, durabilidad excepcional y una presencia imponente. Bienvenidos al siguiente nivel de elegancia masculina.',
     
     // Catalog Page
     'catalog.exclusive_collection': 'Colección exclusiva',
@@ -100,7 +100,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'home.explore_all': 'Explore all pieces',
     'home.about_title': 'About Us',
     'home.about_desc1': 'ALFA DARK was born from the obsession to create pieces that not only look good, but project power, mystery and exclusivity. We do not make conventional jewelry; we forge high-end amulets for the modern man who understands that his presence is his best presentation.',
-    'home.about_desc2': 'Each jewel in our vault is meticulously designed and crafted with precious metals (925 Silver, 18K Gold) to ensure durability and an impeccable finish. Welcome to the next level of masculine elegance.',
+    'home.about_desc2': 'Each jewel in our vault is meticulously designed and coated with the highest quality 18K Gold, ensuring a dazzling finish, exceptional durability, and an imposing presence. Welcome to the next level of masculine elegance.',
     
     // Catalog Page
     'catalog.exclusive_collection': 'Exclusive Collection',
@@ -160,7 +160,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'home.explore_all': 'Lliw p’itakunata maskay',
     'home.about_title': 'Ñuqaykumanta',
     'home.about_desc1': 'ALFA DARK paqarimurqa sumaq p’itakunata ruray munaymanta, atiyniyuq, pakalla hinaspa sapaq kayta rikuchinanpaq. Manam sapa p’unchaw qori-qolqitachu rurayku; musuq qharipaq sumaq amuleto rurayku, paymi yachan kayninmi aswan allin riqsichikuynin kasqanta.',
-    'home.about_desc2': 'Sapa qori-qolqiyku waqaychanaykupiqa allin rurasqa hinaspa chaniyuq q’illaykunawan (925 Qullqi, 18K Quri) rurasqam, unaypaq hinaspa sumaq tukusqa kananpaq. Allin hamusqa kay qhari sumaq kaypa qatiqnin pataman.',
+    'home.about_desc2': 'Sapa qori-qolqiyku waqaychanaykupiqa allin rurasqam hinaspa 18K Quriwan k\'uyusqam, unaypaq sumaq k\'anchayniyuq kananpaq. Allin hamusqa kay qhari sumaq kaypa qatiqnin pataman.',
 
     
     // Catalog Page
