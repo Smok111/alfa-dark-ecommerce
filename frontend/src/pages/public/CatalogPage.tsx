@@ -247,6 +247,13 @@ export const CatalogPage = () => {
                         <h3 className="text-lg text-white/90 font-serif mb-2 group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
                           {product.name}
                         </h3>
+                        <div className="mb-2">
+                          {product.stock !== undefined && product.stock <= 0 ? (
+                            <span className="bg-red-900/50 text-red-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-red-500/20">Agotado</span>
+                          ) : (
+                            <span className="bg-green-900/50 text-green-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-green-500/20">Disponible</span>
+                          )}
+                        </div>
                         {product.material && <p className="text-gray-400 font-light tracking-widest text-[10px] mb-2 uppercase">{product.material}</p>}
                         <p className="text-primary font-medium tracking-widest text-lg">
                           S/ {Number(product.price).toLocaleString('es-PE', { minimumFractionDigits: 2 })}

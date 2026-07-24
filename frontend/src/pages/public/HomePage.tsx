@@ -213,6 +213,13 @@ export const HomePage = () => {
                 </div>
                 <div className="text-center px-2 pb-2">
                   <h3 className="text-xl text-white font-serif mb-2 group-hover:text-primary transition-colors duration-300">{product.name}</h3>
+                  <div className="mb-2">
+                    {product.stock !== undefined && product.stock <= 0 ? (
+                      <span className="bg-red-900/50 text-red-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-red-500/20">Agotado</span>
+                    ) : (
+                      <span className="bg-green-900/50 text-green-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-green-500/20">Disponible</span>
+                    )}
+                  </div>
                   {product.material && <p className="text-gray-400 font-light tracking-widest text-xs mb-1 uppercase">{product.material}</p>}
                   <p className="text-gray-400 font-light tracking-widest text-sm mb-1 uppercase">Edición Limitada</p>
                   <p className="text-primary font-medium tracking-wider text-lg">S/ {Number(product.price).toLocaleString()}</p>
