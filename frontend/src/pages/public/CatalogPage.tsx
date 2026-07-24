@@ -226,11 +226,18 @@ export const CatalogPage = () => {
                         )}
 
                         <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 opacity-0 group-hover:opacity-100 transition-all translate-y-6 group-hover:translate-y-0 duration-500">
-                          <WhatsAppProductButton 
-                            productName={product.name}
-                            price={Number(product.price)}
-                            className="bg-primary text-secondary px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_5px_20px_rgba(212,175,55,0.4)] flex items-center gap-2 hover:bg-[#F3E5AB] hover:scale-105 transition-all"
-                          />
+                          {product.stock > 0 ? (
+                            <WhatsAppProductButton 
+                              productName={product.name}
+                              price={Number(product.price)}
+                              imageUrl={product.images?.[0]?.imageUrl || product.images?.[0]}
+                              className="bg-primary text-secondary px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_5px_20px_rgba(212,175,55,0.4)] flex items-center gap-2 hover:bg-[#F3E5AB] hover:scale-105 transition-all"
+                            />
+                          ) : (
+                            <div className="bg-red-900/80 text-red-200 px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 cursor-not-allowed border border-red-500/30">
+                              Agotado
+                            </div>
+                          )}
                         </div>
                       </div>
 

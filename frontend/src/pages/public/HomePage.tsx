@@ -197,10 +197,18 @@ export const HomePage = () => {
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                   />
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-300">
-                    <WhatsAppProductButton 
-                      productName={product.name} 
-                      className="bg-primary text-secondary px-8 py-3 rounded-full font-bold shadow-xl flex items-center gap-2 hover:bg-[#F3E5AB] transition-colors"
-                    />
+                    {product.stock > 0 ? (
+                      <WhatsAppProductButton 
+                        productName={product.name} 
+                        price={Number(product.price)}
+                        imageUrl={product.images?.[0]?.imageUrl || product.images?.[0]}
+                        className="bg-primary text-secondary px-8 py-3 rounded-full font-bold shadow-xl flex items-center gap-2 hover:bg-[#F3E5AB] transition-colors"
+                      />
+                    ) : (
+                      <div className="bg-red-900/80 text-red-200 px-8 py-3 rounded-full font-bold flex items-center gap-2 cursor-not-allowed border border-red-500/30">
+                        Agotado
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="text-center px-2 pb-2">
