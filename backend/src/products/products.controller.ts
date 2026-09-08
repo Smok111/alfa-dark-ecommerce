@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Res, Header } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductQueryDto } from './dto/product-query.dto';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { CatalogQueryDto } from './dto/catalog-query.dto';
+import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -20,6 +21,13 @@ export class ProductsController {
   @ApiBearerAuth()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
+  }
+
+  @Get('catalog')
+  @ApiOperation({ summary: 'Optimized catalog: categories + products in one call' })
+  @Header('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60')
+  getCatalog(@Query() query: CatalogQueryDto) {
+    return this.productsService.getCatalog(query);
   }
 
   @Get()
