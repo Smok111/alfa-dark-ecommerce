@@ -21,12 +21,12 @@ export const WhatsAppFloating = () => {
   );
 };
 
-export const WhatsAppProductButton = ({ productName, price, className }: { productName: string, price?: number, className?: string }) => {
-  const text = encodeURIComponent(
-    price 
-      ? `Hola, me interesa comprar el producto "${productName}" por S/ ${price}. ¿Me pueden dar más detalles?`
-      : `Hola, me interesa comprar el producto "${productName}". ¿Me pueden dar más detalles?`
-  );
+export const WhatsAppProductButton = ({ productName, price, imageUrl, className }: { productName: string, price?: number, imageUrl?: string, className?: string }) => {
+  const baseText = price 
+    ? `Hola, me interesa comprar el producto "${productName}" por S/ ${price}. ¿Me pueden dar más detalles?`
+    : `Hola, me interesa comprar el producto "${productName}". ¿Me pueden dar más detalles?`;
+    
+  const text = encodeURIComponent(imageUrl ? `${baseText}\n\n${imageUrl}` : baseText);
   const whatsappUrl = `https://wa.me/51912167936?text=${text}`;
   
   return (

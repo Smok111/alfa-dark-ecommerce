@@ -71,7 +71,7 @@ async function bootstrap(): Promise<void> {
 
   // Start server
   const port = configService.get<number>('PORT', 3000);
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 
   logger.log(`🚀 ALFA DARK JOYERÍA API running on http://localhost:${port}`);
   logger.log(`📖 Swagger docs at http://localhost:${port}/api/v1/docs`);

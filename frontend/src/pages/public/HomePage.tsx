@@ -197,14 +197,29 @@ export const HomePage = () => {
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                   />
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-300">
-                    <WhatsAppProductButton 
-                      productName={product.name} 
-                      className="bg-primary text-secondary px-8 py-3 rounded-full font-bold shadow-xl flex items-center gap-2 hover:bg-[#F3E5AB] transition-colors"
-                    />
+                    {product.stock > 0 ? (
+                      <WhatsAppProductButton 
+                        productName={product.name} 
+                        price={Number(product.price)}
+                        imageUrl={product.images?.[0]?.imageUrl || product.images?.[0]}
+                        className="bg-primary text-secondary px-8 py-3 rounded-full font-bold shadow-xl flex items-center gap-2 hover:bg-[#F3E5AB] transition-colors"
+                      />
+                    ) : (
+                      <div className="bg-red-900/80 text-red-200 px-8 py-3 rounded-full font-bold flex items-center gap-2 cursor-not-allowed border border-red-500/30">
+                        Agotado
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="text-center px-2 pb-2">
                   <h3 className="text-xl text-white font-serif mb-2 group-hover:text-primary transition-colors duration-300">{product.name}</h3>
+                  <div className="mb-2">
+                    {product.stock !== undefined && product.stock <= 0 ? (
+                      <span className="bg-red-900/50 text-red-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-red-500/20">Agotado</span>
+                    ) : (
+                      <span className="bg-green-900/50 text-green-400 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-green-500/20">Disponible</span>
+                    )}
+                  </div>
                   {product.material && <p className="text-gray-400 font-light tracking-widest text-xs mb-1 uppercase">{product.material}</p>}
                   <p className="text-gray-400 font-light tracking-widest text-sm mb-1 uppercase">Edición Limitada</p>
                   <p className="text-primary font-medium tracking-wider text-lg">S/ {Number(product.price).toLocaleString()}</p>
