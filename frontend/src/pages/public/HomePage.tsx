@@ -33,7 +33,8 @@ const Particles = () => {
 
 export const HomePage = () => {
   const { t } = useLanguageStore();
-  const [products, setProducts] = useState<any[]>([]);
+  const [exclusiveProducts, setExclusiveProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,21 +58,29 @@ export const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodRes, catRes] = await Promise.all([
+        const [featuredRes, allRes, catRes] = await Promise.all([
           api.get('/products', { params: { featured: true, limit: 3 } }),
+          api.get('/products', { params: { limit: 12 } }),
           api.get('/categories')
         ]);
         
-        // El interceptor envuelve en { data: ... } y el paginador también { data: ... }
-        let prods = prodRes.data?.data?.data || prodRes.data?.data || [];
-        if (!Array.isArray(prods)) prods = [];
+        let featured = featuredRes.data?.data?.data || featuredRes.data?.data || [];
+        if (!Array.isArray(featured)) featured = [];
         
-        if (prods.length === 0) {
-          const allProdRes = await api.get('/products', { params: { limit: 3 } });
-          prods = allProdRes.data?.data?.data || allProdRes.data?.data || [];
-          if (!Array.isArray(prods)) prods = [];
+        let all = allRes.data?.data?.data || allRes.data?.data || [];
+        if (!Array.isArray(all)) all = [];
+
+        // Si no hay destacados, tomamos los 3 primeros de la lista general
+        if (featured.length === 0) {
+          featured = all.slice(0, 3);
         }
-        setProducts(prods.slice(0, 3));
+        setExclusiveProducts(featured.slice(0, 3));
+        
+        // Para el catálogo general en el inicio, mostramos 8 productos,
+        // excluyendo los que ya se muestran arriba.
+        const exclusiveIds = new Set(featured.slice(0, 3).map((p: any) => p.id));
+        const filteredAll = all.filter((p: any) => !exclusiveIds.has(p.id)).slice(0, 8);
+        setAllProducts(filteredAll);
         
         let cats = catRes.data?.data || [];
         if (!Array.isArray(cats)) cats = [];
@@ -181,9 +190,9 @@ export const HomePage = () => {
           <div className="text-center py-20">
             <div className="w-12 h-12 mx-auto border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
-        ) : products.length > 0 && (
+        ) : exclusiveProducts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {products.map((product) => (
+            {exclusiveProducts.map((product) => (
               <motion.div 
                 key={product.id}
                 whileHover={{ y: -10 }}
@@ -222,10 +231,65 @@ export const HomePage = () => {
                   </div>
                   {product.material && <p className="text-gray-400 font-light tracking-widest text-xs mb-1 uppercase">{product.material}</p>}
                   <p className="text-gray-400 font-light tracking-widest text-sm mb-1 uppercase">Edición Limitada</p>
-                  <p className="text-primary font-medium tracking-wider text-lg">S/ {Number(product.price).toLocaleString()}</p>
+                  <p className="text-primary font-medium tracking-wider text-lg">S/ {Number(product.price).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</p>
                 </div>
               </motion.div>
             ))}
+          </div>
+        )}
+
+        {/* Sección: Todo el Catálogo */}
+        {!isLoading && allProducts.length > 0 && (
+          <div className="mt-32 border-t border-white/5 pt-20">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-serif text-white mb-4">Descubre Más Joyas</h2>
+              <p className="text-gray-500 tracking-widest uppercase text-xs">Últimas adiciones a nuestra colección</p>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {allProducts.map((product) => (
+                <motion.div 
+                  key={product.id}
+                  whileHover={{ y: -5 }}
+                  className="group relative bg-[#0a0a0a]/50 border border-white/5 hover:border-primary/20 rounded-2xl p-4 transition-all duration-500 hover:shadow-[0_0_20px_rgba(212,175,55,0.05)]"
+                >
+                  <div className="aspect-square overflow-hidden rounded-xl mb-4 relative bg-black/40">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent group-hover:opacity-60 transition-opacity duration-500 z-10" />
+                    <img 
+                      src={product.images?.[0]?.imageUrl || product.images?.[0] || '/logo-v3.png'} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                    />
+                    <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
+                      {product.stock > 0 ? (
+                        <WhatsAppProductButton 
+                          productName={product.name} 
+                          price={Number(product.price)}
+                          imageUrl={product.images?.[0]?.imageUrl || product.images?.[0]}
+                          className="bg-primary text-secondary px-6 py-2 rounded-full text-xs font-bold shadow-lg hover:bg-[#F3E5AB] transition-colors"
+                        />
+                      ) : (
+                        <div className="bg-red-900/80 text-red-200 px-6 py-2 rounded-full text-xs font-bold cursor-not-allowed">
+                          Agotado
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-center px-1 pb-1 mt-auto">
+                    <h3 className="text-base text-white/90 font-serif mb-1 group-hover:text-primary transition-colors duration-300 line-clamp-1">{product.name}</h3>
+                    <p className="text-primary font-medium tracking-wide">S/ {Number(product.price).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            <div className="text-center mt-12">
+              <Link to="/catalog">
+                <button className="px-8 py-3 rounded-full bg-transparent border border-primary/30 text-primary uppercase tracking-widest text-xs font-medium hover:border-primary hover:bg-primary/5 transition-all duration-300">
+                  Ver Colección Completa
+                </button>
+              </Link>
+            </div>
           </div>
         )}
         
