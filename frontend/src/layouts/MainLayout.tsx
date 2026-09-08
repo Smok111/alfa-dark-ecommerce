@@ -45,6 +45,7 @@ export const MainLayout = () => {
           <nav className="hidden md:flex items-center space-x-8 text-xs uppercase tracking-[0.2em] font-semibold">
             <Link to="/" className="hover:text-primary transition-colors py-2">{t('nav.home')}</Link>
             <Link to="/catalog" className="hover:text-primary transition-colors py-2">{t('nav.vault')}</Link>
+            <Link to="/about" className="hover:text-primary transition-colors py-2">{t('home.about_title') || 'Sobre Nosotros'}</Link>
             <a href="https://wa.me/51912167936?text=Hola,%20busco%20asesoría%20VIP%20para%20una%20pieza%20de%20alta%20gama." target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-2">{t('nav.vip_advisory')}</a>
             
             {isAuthenticated && user ? (
@@ -90,6 +91,7 @@ export const MainLayout = () => {
           <div className="md:hidden glass-panel mt-3 mx-4 rounded-xl p-6 space-y-4 text-sm uppercase tracking-widest">
             <Link to="/" onClick={() => setMenuOpen(false)} className="block hover:text-primary transition-colors py-2">{t('nav.home')}</Link>
             <Link to="/catalog" onClick={() => setMenuOpen(false)} className="block hover:text-primary transition-colors py-2">{t('nav.vault')}</Link>
+            <Link to="/about" onClick={() => setMenuOpen(false)} className="block hover:text-primary transition-colors py-2">{t('home.about_title') || 'Sobre Nosotros'}</Link>
             <a href="https://wa.me/51912167936" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="block hover:text-primary transition-colors py-2">{t('nav.vip_advisory')}</a>
             {isAuthenticated ? (
               <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="block text-red-400 hover:text-red-300 py-2">{t('nav.logout')}</button>

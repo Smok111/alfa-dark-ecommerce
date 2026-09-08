@@ -3,6 +3,7 @@ import { MainLayout } from '../layouts/MainLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 import { HomePage } from '../pages/public/HomePage';
 import { CatalogPage } from '../pages/public/CatalogPage';
+import { AboutPage } from '../pages/public/AboutPage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 import { AdminGuard } from '../components/auth/AdminGuard';
@@ -23,6 +24,7 @@ export const AppRouter = () => {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="catalog" element={<CatalogPage />} />
+          <Route path="about" element={<AboutPage />} />
           <Route path="catalog-test" element={<CatalogTestPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
