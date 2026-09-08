@@ -153,9 +153,8 @@ export const AboutPage = () => {
                <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#742284]/10 rounded-full blur-[40px] -ml-10 -mb-10 pointer-events-none" />
                
                <div className="flex flex-col sm:flex-row items-center gap-8 relative z-10">
-                  <div className="bg-[#742284] p-4 rounded-2xl flex items-center justify-center w-20 h-20 shadow-2xl border border-white/10">
-                     {/* Logo Yape Blanco sobre fondo Morado */}
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Yape_text_logo.svg/2560px-Yape_text_logo.svg.png" alt="Yape Logo" className="w-full object-contain brightness-0 invert drop-shadow-sm" />
+                  <div className="rounded-2xl flex items-center justify-center w-20 h-20 shadow-2xl overflow-hidden">
+                     <img src="/yape-logo.svg" alt="Yape" className="w-full h-full object-cover" />
                   </div>
                   <div className="text-center sm:text-left">
                      <p className="text-white text-5xl md:text-6xl font-black tracking-widest mb-3 drop-shadow-[0_2px_10px_rgba(116,34,132,0.5)]">
