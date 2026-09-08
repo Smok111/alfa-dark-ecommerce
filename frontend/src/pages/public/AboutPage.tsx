@@ -113,12 +113,6 @@ export const AboutPage = () => {
                 Números de Contacto
               </h3>
               
-              <div className="mb-6 relative z-10">
-                <p className="text-gray-500 uppercase tracking-widest text-[10px] font-bold mb-1 group-hover:text-primary/70 transition-colors">SOLICITAR RECOJO:</p>
-                <p className="text-white text-2xl font-bold tracking-wider">912 167 936</p>
-                <p className="text-gray-600 text-[9px] mt-2 bg-white/5 inline-block px-2 py-1 rounded-md">Límite: Hasta el sábado a las 1:00 p.m.</p>
-              </div>
-              
               <div className="relative z-10">
                 <p className="text-gray-500 uppercase tracking-widest text-[10px] font-bold mb-1 group-hover:text-primary/70 transition-colors">HACER PEDIDOS:</p>
                 <p className="text-white text-2xl font-bold tracking-wider">912 167 936</p>
