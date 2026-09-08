@@ -4,6 +4,16 @@ import { Link } from 'react-router-dom';
 export const AboutPage = () => {
   return (
     <div className="bg-[#050505] min-h-screen pt-32 pb-20 relative overflow-hidden">
+      {/* Background Texture */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img 
+          src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80" 
+          alt="Luxury Texture" 
+          className="w-full h-full object-cover opacity-10"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-[#050505]/90 to-[#050505]" />
+      </div>
+
       {/* Decorative background gradients */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
       
@@ -85,7 +95,7 @@ export const AboutPage = () => {
             Separaciones y Métodos de Pago
           </h3>
           <p className="text-gray-300 text-sm md:text-base font-light mb-10">
-            La separación mínima es de S/ 5.00 mediante Yape.
+            La separación mínima es de S/ 20.00 mediante Yape.
           </p>
           
           {/* Tarjeta Yape */}
@@ -109,7 +119,7 @@ export const AboutPage = () => {
              <ul className="space-y-4 text-gray-300 text-sm md:text-base font-light">
                 <li className="flex gap-3 items-start">
                    <span className="text-primary mt-1">✦</span>
-                   <p>Separar tu joya con el monto mínimo de <span className="text-primary font-bold">S/ 5.00</span>.</p>
+                   <p>Separar tu joya con el monto mínimo de <span className="text-primary font-bold">S/ 20.00</span>.</p>
                 </li>
                 <li className="flex gap-3 items-start">
                    <span className="text-primary mt-1">✦</span>
@@ -117,7 +127,7 @@ export const AboutPage = () => {
                 </li>
                 <li className="flex gap-3 items-start">
                    <span className="text-primary mt-1">✦</span>
-                   <p>Abonar el monto que desees, siempre que <span className="text-primary font-bold">no sea menor a S/ 5.00</span>.</p>
+                   <p>Abonar el monto que desees, siempre que <span className="text-primary font-bold">no sea menor a S/ 20.00</span>.</p>
                 </li>
              </ul>
           </div>
