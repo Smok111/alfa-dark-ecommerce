@@ -148,32 +148,25 @@ export const AboutPage = () => {
                <div className="flex flex-col items-center gap-6 relative z-10">
                   <div className="text-center">
                      <h4 className="text-white text-xl md:text-2xl font-serif mb-2">
-                       Pagos Seguros y Flexibles
+                       Pagos Seguros
                      </h4>
                      <p className="text-gray-400 text-sm font-light mb-8">
-                       Aceptamos múltiples métodos de pago para tu comodidad
+                       Aceptamos Yape y Transferencias Bancarias
                      </p>
                      
-                     <div className="flex justify-center items-center gap-8 text-primary/70">
+                     <div className="flex justify-center items-center gap-10 text-primary/70">
                        <div className="flex flex-col items-center gap-3 group/icon">
-                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                         <div className="w-16 h-16 rounded-full bg-[#742284]/10 border border-[#742284]/40 flex items-center justify-center group-hover/icon:border-[#742284] transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(116,34,132,0.2)] group-hover/icon:shadow-[0_0_25px_rgba(116,34,132,0.5)] overflow-hidden">
+                           <img src="/yape-logo.svg" alt="Yape" className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(116,34,132,0.8)]" />
                          </div>
-                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Tarjetas</span>
+                         <span className="text-[10px] uppercase tracking-wider text-[#742284] opacity-80 group-hover/icon:opacity-100 font-bold">Yape</span>
                        </div>
                        
                        <div className="flex flex-col items-center gap-3 group/icon">
-                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
+                         <div className="w-16 h-16 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover/icon:shadow-[0_0_25px_rgba(212,175,55,0.3)]">
+                           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
                          </div>
-                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Bancos</span>
-                       </div>
-
-                       <div className="flex flex-col items-center gap-3 group/icon">
-                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                         </div>
-                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Seguro</span>
+                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-primary/90 font-bold">Transferencias</span>
                        </div>
                      </div>
                   </div>
