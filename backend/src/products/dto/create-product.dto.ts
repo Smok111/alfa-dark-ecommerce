@@ -50,6 +50,11 @@ export class CreateProductDto {
   @IsBoolean()
   featured?: boolean;
 
+  @ApiPropertyOptional({ default: true })
+  @IsOptional()
+  @IsBoolean()
+  active?: boolean;
+
   @ApiProperty({ example: 'uuid-de-la-categoria' })
   @IsUUID()
   categoryId!: string;

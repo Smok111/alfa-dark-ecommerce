@@ -22,7 +22,7 @@ export class ProductsService {
     const skip = (pageNumber - 1) * limitNumber;
 
     // Build product where clause
-    const where: Prisma.ProductWhereInput = {};
+    const where: Prisma.ProductWhereInput = { active: true };
 
     if (category && category !== 'all') {
       where.category = { slug: category };
@@ -128,6 +128,7 @@ export class ProductsService {
       if (maxPrice) where.price.lte = maxPrice;
     }
     if (featured !== undefined) where.featured = featured;
+    if (query.active !== undefined) where.active = query.active;
 
     let orderBy = {};
     switch (sort) {

@@ -89,6 +89,7 @@ model Product {
   material    String?  @db.VarChar(100)
   weight      Decimal? @db.Decimal(8, 2)
   featured    Boolean  @default(false)
+  active      Boolean  @default(true)
   categoryId  String   @map("category_id") @db.Uuid
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")

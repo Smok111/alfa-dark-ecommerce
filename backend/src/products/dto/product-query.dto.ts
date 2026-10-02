@@ -37,4 +37,10 @@ export class ProductQueryDto extends PaginationDto {
   @Type(() => Boolean)
   @IsBoolean()
   featured?: boolean;
+
+  @ApiPropertyOptional({ example: true })
+  @IsOptional()
+  @Type(() => Boolean)
+  @IsBoolean()
+  active?: boolean;
 }

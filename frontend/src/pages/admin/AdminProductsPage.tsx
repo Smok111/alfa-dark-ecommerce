@@ -20,8 +20,19 @@ export const AdminProductsPage = () => {
     categoryId: '',
     material: '',
     weight: '',
-    featured: false
+    featured: false,
+    active: true
   });
+
+  const toggleActive = async (id: string, currentStatus: boolean) => {
+    try {
+      await api.patch(`/products/${id}`, { active: !currentStatus });
+      showSuccess(currentStatus ? 'Joya ocultada del catálogo' : 'Joya ahora es visible');
+      fetchData();
+    } catch (error) {
+      showError('Error al cambiar visibilidad');
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -93,7 +104,8 @@ export const AdminProductsPage = () => {
         price: Number(formData.price),
         stock: Number(formData.stock),
         categoryId: formData.categoryId,
-        featured: formData.featured
+        featured: formData.featured,
+        active: formData.active
       };
       
       if (uploadedImageUrl) {
@@ -116,7 +128,7 @@ export const AdminProductsPage = () => {
       setIsModalOpen(false);
       setFile(null);
       setEditingId(null);
-      setFormData({ name: '', description: '', price: '', stock: '', categoryId: '', material: '', weight: '', featured: false });
+      setFormData({ name: '', description: '', price: '', stock: '', categoryId: '', material: '', weight: '', featured: false, active: true });
       fetchData();
     } catch (err: any) {
       showError(err.message || err.response?.data?.message || 'Error al crear la joya');
@@ -135,7 +147,8 @@ export const AdminProductsPage = () => {
       categoryId: product.categoryId,
       material: product.material || '',
       weight: product.weight || '',
-      featured: product.featured
+      featured: product.featured,
+      active: product.active !== false
     });
     setFile(null);
     setIsModalOpen(true);
@@ -156,7 +169,7 @@ export const AdminProductsPage = () => {
 
   const openNewModal = () => {
     setEditingId(null);
-    setFormData({ name: '', description: '', price: '', stock: '', categoryId: '', material: '', weight: '', featured: false });
+    setFormData({ name: '', description: '', price: '', stock: '', categoryId: '', material: '', weight: '', featured: false, active: true });
     setFile(null);
     setIsModalOpen(true);
   };
@@ -185,6 +198,7 @@ export const AdminProductsPage = () => {
                 <th className="py-4 px-6 text-gray-500 text-xs uppercase tracking-widest font-semibold">Precio</th>
                 <th className="py-4 px-6 text-gray-500 text-xs uppercase tracking-widest font-semibold">Stock</th>
                 <th className="py-4 px-6 text-gray-500 text-xs uppercase tracking-widest font-semibold">Destacado</th>
+                <th className="py-4 px-6 text-gray-500 text-xs uppercase tracking-widest font-semibold">Visibilidad</th>
                 <th className="py-4 px-6 text-gray-500 text-xs uppercase tracking-widest font-semibold text-right">Acciones</th>
               </tr>
             </thead>
@@ -220,7 +234,15 @@ export const AdminProductsPage = () => {
                         {product.featured ? 'Sí' : 'No'}
                       </span>
                     </td>
+                    <td className="py-4 px-6">
+                      <span className={`px-2 py-1 rounded text-[10px] uppercase tracking-wider ${product.active !== false ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+                        {product.active !== false ? 'Visible' : 'Oculto'}
+                      </span>
+                    </td>
                     <td className="py-4 px-6 text-right space-x-4">
+                      <button onClick={() => toggleActive(product.id, product.active !== false)} className={`${product.active !== false ? 'text-yellow-500 hover:text-yellow-400' : 'text-green-500 hover:text-green-400'} transition-colors`}>
+                        {product.active !== false ? 'Ocultar' : 'Mostrar'}
+                      </button>
                       <button onClick={() => handleEdit(product)} className="text-blue-400 hover:text-blue-300 transition-colors">Editar</button>
                       {confirmDeleteId === product.id ? (
                         <div className="inline-flex items-center gap-3">
