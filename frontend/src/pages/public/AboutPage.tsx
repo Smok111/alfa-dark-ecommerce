@@ -134,29 +134,48 @@ export const AboutPage = () => {
               Separaciones y Métodos de Pago
             </h3>
             <p className="text-gray-400 text-sm md:text-base font-light mb-12 relative z-10">
-              La separación mínima es de S/ 20.00 mediante Yape.
+              La separación mínima de tu joya es de S/ 20.00.
             </p>
             
-            {/* Tarjeta Yape - CON ANIMACIÓN FLOTANTE Y GLOW */}
+            {/* Medios de pago - Reemplazo de Yape */}
             <motion.div 
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="bg-black/90 border border-[#742284]/40 rounded-3xl p-6 md:p-8 inline-block mb-14 shadow-[0_0_30px_rgba(116,34,132,0.2)] relative overflow-hidden cursor-default hover:shadow-[0_0_50px_rgba(116,34,132,0.4)] hover:border-[#742284] transition-all duration-300"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="bg-[#050505]/90 border border-primary/20 rounded-3xl p-8 md:p-10 inline-block mb-14 shadow-[0_0_30px_rgba(212,175,55,0.05)] relative overflow-hidden group hover:border-primary/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transition-all duration-500"
             >
-               <div className="absolute top-0 right-0 w-48 h-48 bg-[#742284]/20 rounded-full blur-[50px] -mr-10 -mt-10 pointer-events-none" />
-               <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#742284]/10 rounded-full blur-[40px] -ml-10 -mb-10 pointer-events-none" />
+               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                
-               <div className="flex flex-col sm:flex-row items-center gap-8 relative z-10">
-                  <div className="rounded-2xl flex items-center justify-center w-20 h-20 shadow-2xl overflow-hidden">
-                     <img src="/yape-logo.svg" alt="Yape" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="text-center sm:text-left">
-                     <p className="text-white text-5xl md:text-6xl font-black tracking-widest mb-3 drop-shadow-[0_2px_10px_rgba(116,34,132,0.5)]">
-                       967 362 630
+               <div className="flex flex-col items-center gap-6 relative z-10">
+                  <div className="text-center">
+                     <h4 className="text-white text-xl md:text-2xl font-serif mb-2">
+                       Pagos Seguros y Flexibles
+                     </h4>
+                     <p className="text-gray-400 text-sm font-light mb-8">
+                       Aceptamos múltiples métodos de pago para tu comodidad
                      </p>
-                     <p className="text-gray-400 text-[10px] md:text-xs uppercase tracking-[0.3em] font-bold">
-                       A NOMBRE DE: <span className="text-primary tracking-widest ml-1 bg-primary/10 px-2 py-1 rounded">CRISTIAN ZARATE</span>
-                     </p>
+                     
+                     <div className="flex justify-center items-center gap-8 text-primary/70">
+                       <div className="flex flex-col items-center gap-3 group/icon">
+                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                         </div>
+                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Tarjetas</span>
+                       </div>
+                       
+                       <div className="flex flex-col items-center gap-3 group/icon">
+                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
+                         </div>
+                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Bancos</span>
+                       </div>
+
+                       <div className="flex flex-col items-center gap-3 group/icon">
+                         <div className="w-14 h-14 rounded-full bg-black border border-primary/20 flex items-center justify-center group-hover/icon:border-primary/60 group-hover/icon:text-primary transition-all duration-300 group-hover/icon:-translate-y-1 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                         </div>
+                         <span className="text-[10px] uppercase tracking-wider text-gray-500 group-hover/icon:text-gray-300 font-bold">Seguro</span>
+                       </div>
+                     </div>
                   </div>
                </div>
             </motion.div>
