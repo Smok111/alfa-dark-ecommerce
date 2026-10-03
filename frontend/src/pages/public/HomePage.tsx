@@ -137,7 +137,7 @@ export const HomePage = () => {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-              className="relative w-[200px] md:w-[300px] lg:w-[350px] h-auto mb-8 flex justify-center group cursor-default"
+              className="relative w-[280px] md:w-[420px] lg:w-[500px] h-auto mb-8 flex justify-center group cursor-default"
             >
               <div className="absolute inset-0 bg-primary/30 blur-[80px] rounded-full mix-blend-screen pointer-events-none scale-125 animate-pulse-slow"></div>
               
