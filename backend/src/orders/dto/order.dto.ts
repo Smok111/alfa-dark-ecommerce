@@ -28,3 +28,14 @@ export class UpdateOrderStatusDto {
   @IsEnum(OrderStatus)
   status: OrderStatus;
 }
+
+export class CreateManualSaleDto {
+  @IsString()
+  productId: string;
+
+  @IsNumber()
+  quantity: number;
+
+  @IsNumber()
+  price: number;
+}

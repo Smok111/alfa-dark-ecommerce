@@ -1,7 +1,82 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import api from '../../lib/api';
 
 export const AdminDashboardPage = () => {
   const today = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  
+  const [stats, setStats] = useState({
+    totalRevenue: 0,
+    totalOrders: 0,
+    ordersByStatus: {
+      PENDING: 0,
+      PROCESSING: 0,
+      SHIPPED: 0,
+      DELIVERED: 0,
+      CANCELLED: 0
+    },
+    products: {
+      total: 0,
+      inStock: 0,
+      outOfStock: 0
+    }
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const [ordersRes, productsRes] = await Promise.all([
+          api.get('/orders'),
+          api.get('/products?limit=1000')
+        ]);
+
+        const orders = ordersRes.data?.data || [];
+        
+        let prods = productsRes.data?.data?.data || productsRes.data?.data || [];
+        if (!Array.isArray(prods)) prods = [];
+
+        let revenue = 0;
+        let byStatus = { PENDING: 0, PROCESSING: 0, SHIPPED: 0, DELIVERED: 0, CANCELLED: 0 };
+        
+        orders.forEach((o: any) => {
+          if (o.paymentStatus === 'PAID') {
+            revenue += Number(o.total);
+          }
+          if (byStatus[o.status as keyof typeof byStatus] !== undefined) {
+            byStatus[o.status as keyof typeof byStatus]++;
+          }
+        });
+
+        let inStock = 0;
+        let outOfStock = 0;
+        prods.forEach((p: any) => {
+          if (p.stock > 0) inStock++;
+          else outOfStock++;
+        });
+
+        setStats({
+          totalRevenue: revenue,
+          totalOrders: orders.length,
+          ordersByStatus: byStatus,
+          products: {
+            total: prods.length,
+            inStock,
+            outOfStock
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching dashboard data', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  const total = stats.totalOrders || 1; // prevent division by zero
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-20">
@@ -27,9 +102,11 @@ export const AdminDashboardPage = () => {
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
-          <h2 className="text-3xl font-bold text-white mb-1">S/ 0.00</h2>
+          <h2 className="text-3xl font-bold text-white mb-1">
+            {isLoading ? '...' : `S/ ${stats.totalRevenue.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`}
+          </h2>
           <p className="text-sm font-medium text-gray-300">Ingresos totales</p>
-          <p className="text-[10px] text-gray-600 mt-1">Confirmado · Enviado · Finalizado</p>
+          <p className="text-[10px] text-gray-600 mt-1">Solo pedidos pagados</p>
           <div className="absolute top-4 right-4 w-1 h-1 bg-white/20 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
         </motion.div>
 
@@ -38,9 +115,9 @@ export const AdminDashboardPage = () => {
           <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 mb-4">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
           </div>
-          <h2 className="text-3xl font-bold text-white mb-1">0</h2>
+          <h2 className="text-3xl font-bold text-white mb-1">{isLoading ? '...' : stats.totalOrders}</h2>
           <p className="text-sm font-medium text-gray-300">Total pedidos</p>
-          <p className="text-[10px] text-gray-600 mt-1">0 en proceso</p>
+          <p className="text-[10px] text-gray-600 mt-1">{stats.ordersByStatus.PENDING} pendientes</p>
           <div className="absolute top-4 right-4 w-1 h-1 bg-white/20 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
         </motion.div>
 
@@ -49,9 +126,9 @@ export const AdminDashboardPage = () => {
           <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 mb-4">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
           </div>
-          <h2 className="text-3xl font-bold text-white mb-1">0</h2>
+          <h2 className="text-3xl font-bold text-white mb-1">VIP</h2>
           <p className="text-sm font-medium text-gray-300">AlfaPoints</p>
-          <p className="text-[10px] text-gray-600 mt-1">Puntos distribuidos</p>
+          <p className="text-[10px] text-gray-600 mt-1">Programa de Lealtad Activo</p>
           <div className="absolute top-4 right-4 w-1 h-1 bg-white/20 rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
         </motion.div>
       </div>
@@ -66,40 +143,26 @@ export const AdminDashboardPage = () => {
                 <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
                 Estado de pedidos
               </div>
-              <span className="text-[10px] text-gray-500">0 total</span>
+              <span className="text-[10px] text-gray-500">{stats.totalOrders} total</span>
             </div>
             
             <div className="space-y-4">
               {[
-                { label: 'En Proceso', count: 0, percent: 0, color: 'bg-[#F59E0B]' },
-                { label: 'Confirmado', count: 0, percent: 0, color: 'bg-[#10B981]' },
-                { label: 'Enviado', count: 0, percent: 0, color: 'bg-[#3B82F6]' },
-                { label: 'Finalizado', count: 0, percent: 0, color: 'bg-primary' },
-                { label: 'Cancelado', count: 0, percent: 0, color: 'bg-[#EF4444]' },
+                { label: 'Pendiente', count: stats.ordersByStatus.PENDING, color: 'bg-gray-500' },
+                { label: 'En Proceso', count: stats.ordersByStatus.PROCESSING, color: 'bg-[#F59E0B]' },
+                { label: 'Enviado', count: stats.ordersByStatus.SHIPPED, color: 'bg-[#3B82F6]' },
+                { label: 'Entregado / WhatsApp', count: stats.ordersByStatus.DELIVERED, color: 'bg-primary' },
+                { label: 'Cancelado', count: stats.ordersByStatus.CANCELLED, color: 'bg-[#EF4444]' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center text-xs">
-                  <span className="w-24 text-gray-400">{item.label}</span>
+                  <span className="w-36 text-gray-400">{item.label}</span>
                   <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden mx-4">
-                    <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.percent}%` }}></div>
+                    <div className={`h-full ${item.color} rounded-full`} style={{ width: `${(item.count / total) * 100}%` }}></div>
                   </div>
                   <span className="w-8 text-right text-gray-300 font-medium">{item.count}</span>
-                  <span className="w-10 text-right text-gray-600">{item.percent}%</span>
+                  <span className="w-10 text-right text-gray-600">{Math.round((item.count / total) * 100)}%</span>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Pedidos Recientes */}
-          <div className="bg-[#161616] p-6 rounded-2xl border border-white/5">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-2 text-gray-300 font-medium text-sm">
-                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                Pedidos recientes
-              </div>
-              <button className="text-[10px] text-primary hover:text-primary-dark uppercase tracking-wider">Ver todos →</button>
-            </div>
-            <div className="flex flex-col items-center justify-center h-40 text-center border-t border-white/5 pt-6">
-              <p className="text-gray-500 text-sm">No hay pedidos recientes</p>
             </div>
           </div>
         </div>
@@ -113,56 +176,21 @@ export const AdminDashboardPage = () => {
                 <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 Productos
               </div>
-              <button className="text-[10px] text-primary hover:text-primary-dark uppercase tracking-wider">Ver →</button>
             </div>
             <div className="flex justify-between items-end mb-6">
-              <h3 className="text-3xl font-bold text-white">0</h3>
+              <h3 className="text-3xl font-bold text-white">{stats.products.total}</h3>
               <span className="text-[10px] text-gray-600 mb-1">registrados</span>
             </div>
             <div className="flex items-center gap-6">
               <div className="relative w-16 h-16 flex items-center justify-center rounded-full border-4 border-white/5">
-                <span className="text-xs font-bold text-gray-400">0%</span>
+                <span className="text-xs font-bold text-gray-400">
+                  {stats.products.total > 0 ? Math.round((stats.products.inStock / stats.products.total) * 100) : 0}%
+                </span>
               </div>
               <div className="flex-1 space-y-2 text-xs">
-                <div className="flex justify-between items-center"><div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#10B981]"></div><span className="text-gray-400">Disponibles</span></div><span className="text-white">0</span></div>
-                <div className="flex justify-between items-center"><div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#EF4444]"></div><span className="text-gray-400">Agotados</span></div><span className="text-white">0</span></div>
+                <div className="flex justify-between items-center"><div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#10B981]"></div><span className="text-gray-400">Disponibles</span></div><span className="text-white">{stats.products.inStock}</span></div>
+                <div className="flex justify-between items-center"><div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[#EF4444]"></div><span className="text-gray-400">Agotados</span></div><span className="text-white">{stats.products.outOfStock}</span></div>
               </div>
-            </div>
-          </div>
-
-          {/* Cupones */}
-          <div className="bg-[#161616] p-6 rounded-2xl border border-white/5">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-2 text-gray-300 font-medium text-sm">
-                <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
-                Cupones
-              </div>
-              <button className="text-[10px] text-primary hover:text-primary-dark uppercase tracking-wider">Ver →</button>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-xl font-bold text-[#10B981]">0</p>
-                <p className="text-[9px] text-gray-500 mt-1">Activos</p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center border-x border-white/5">
-                <p className="text-xl font-bold text-[#F59E0B]">0</p>
-                <p className="text-[9px] text-gray-500 mt-1">Expirados</p>
-              </div>
-              <div className="bg-white/5 rounded-lg p-3 text-center">
-                <p className="text-xl font-bold text-[#EF4444]">0</p>
-                <p className="text-[9px] text-gray-500 mt-1">Agotados</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Top Clientes */}
-          <div className="bg-[#161616] p-6 rounded-2xl border border-white/5">
-            <div className="flex items-center gap-2 text-gray-300 font-medium text-sm mb-6">
-              <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
-              Top clientes
-            </div>
-            <div className="flex flex-col items-center justify-center h-20 text-center border-t border-white/5 pt-4">
-              <p className="text-gray-500 text-sm">No hay clientes aún</p>
             </div>
           </div>
         </div>

@@ -23,6 +23,35 @@ export class OrdersService {
     });
   }
 
+  async createManualSale(userId: string, dto: import('./dto/order.dto').CreateManualSaleDto) {
+    const product = await this.prisma.product.findUnique({ where: { id: dto.productId } });
+    if (!product || product.stock < dto.quantity) {
+      throw new import('@nestjs/common').BadRequestException('Stock insuficiente o producto no encontrado');
+    }
+
+    await this.prisma.product.update({
+      where: { id: dto.productId },
+      data: { stock: { decrement: dto.quantity } }
+    });
+
+    return this.prisma.order.create({
+      data: {
+        userId,
+        total: dto.price * dto.quantity,
+        status: 'DELIVERED',
+        paymentStatus: 'PAID',
+        items: {
+          create: [{
+            productId: dto.productId,
+            quantity: dto.quantity,
+            price: dto.price
+          }]
+        }
+      },
+      include: { items: { include: { product: true } } }
+    });
+  }
+
   async findAll() {
     return this.prisma.order.findMany({
       include: { user: true },

@@ -18,6 +18,13 @@ export class OrdersController {
     return this.ordersService.create(req.user.id, createOrderDto);
   }
 
+  @Post('manual')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
+  createManualSale(@Request() req, @Body() createManualSaleDto: import('./dto/order.dto').CreateManualSaleDto) {
+    return this.ordersService.createManualSale(req.user.id, createManualSaleDto);
+  }
+
   @Get('my-orders')
   findUserOrders(@Request() req) {
     return this.ordersService.findUserOrders(req.user.id);
