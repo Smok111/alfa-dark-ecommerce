@@ -6,6 +6,7 @@ export const AdminLayout = () => {
   const { pathname } = useLocation();
   const { logout, user } = useAuthStore();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
@@ -18,9 +19,14 @@ export const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-gray-300 font-sans flex">
+    <div className="min-h-screen bg-[#0A0A0A] text-gray-300 font-sans flex relative overflow-hidden">
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-[#111111] border-r border-white/5 flex flex-col hidden md:flex">
+      <aside className={`w-64 bg-[#111111] border-r border-white/5 flex flex-col fixed md:relative z-40 h-full transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {/* Logo Area */}
         <div className="p-6 flex items-center gap-3">
           <img src="/logo-v3.png" alt="Alfa Dark Admin" className="h-8 w-auto object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
@@ -56,6 +62,7 @@ export const AdminLayout = () => {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive 
                     ? 'bg-primary/10 text-primary' 
@@ -75,8 +82,16 @@ export const AdminLayout = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-h-screen h-screen overflow-hidden bg-[#0A0A0A]">
         {/* Topbar */}
-        <header className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-[#0A0A0A]">
-          <h2 className="text-sm font-medium text-gray-300">Panel de administración</h2>
+        <header className="h-16 border-b border-white/5 flex items-center justify-between px-4 sm:px-6 bg-[#0A0A0A]">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)} 
+              className="md:hidden p-1.5 -ml-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+            <h2 className="text-sm font-medium text-gray-300">Panel de administración</h2>
+          </div>
           
           <div className="relative">
             <button 

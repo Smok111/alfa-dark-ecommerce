@@ -305,9 +305,9 @@ export const AdminProductsPage = () => {
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-gray-400 text-sm mb-2">Imagen de la Joya</label>
+                  <label className="block text-gray-400 text-sm mb-2">Imágenes del Producto (Galería o Cámara)</label>
                   <input type="file" accept="image/*" onChange={handleFileChange} className="w-full bg-[#161616] border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
-                  <p className="text-xs text-gray-500 mt-2">Sube una imagen cuadrada de alta calidad.</p>
+                  <p className="text-xs text-gray-500 mt-2">Sube o toma una foto cuadrada de alta calidad de la joya.</p>
                 </div>
 
                 <div className="col-span-2">
