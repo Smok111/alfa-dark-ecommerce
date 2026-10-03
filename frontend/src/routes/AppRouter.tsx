@@ -13,6 +13,7 @@ import { AdminProductsPage } from '../pages/admin/AdminProductsPage';
 import { AdminCategoriesPage } from '../pages/admin/AdminCategoriesPage';
 
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage';
+import { AdminShippingPage } from '../pages/admin/AdminShippingPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage';
 import { AdminCouponsPage } from '../pages/admin/AdminCouponsPage';
 import { CatalogTestPage } from '../pages/public/CatalogTestPage';
@@ -37,6 +38,7 @@ export const AppRouter = () => {
             <Route path="products" element={<AdminProductsPage />} />
             <Route path="categories" element={<AdminCategoriesPage />} />
             <Route path="orders" element={<AdminOrdersPage />} />
+            <Route path="shipping" element={<AdminShippingPage />} />
             <Route path="users" element={<AdminUsersPage />} />
             <Route path="coupons" element={<AdminCouponsPage />} />
           </Route>
