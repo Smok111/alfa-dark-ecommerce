@@ -15,19 +15,19 @@ export class OrdersController {
 
   @Post()
   create(@Request() req, @Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(req.user.id, createOrderDto);
+    return this.ordersService.create(req.user.sub, createOrderDto);
   }
 
   @Post('manual')
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
   createManualSale(@Request() req, @Body() createManualSaleDto: CreateManualSaleDto) {
-    return this.ordersService.createManualSale(req.user.id, createManualSaleDto);
+    return this.ordersService.createManualSale(req.user.sub, createManualSaleDto);
   }
 
   @Get('my-orders')
   findUserOrders(@Request() req) {
-    return this.ordersService.findUserOrders(req.user.id);
+    return this.ordersService.findUserOrders(req.user.sub);
   }
 
   @Get()
