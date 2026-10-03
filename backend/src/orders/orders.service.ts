@@ -38,7 +38,7 @@ export class OrdersService {
       data: {
         userId,
         total: dto.price * dto.quantity,
-        status: 'DELIVERED',
+        status: 'PROCESSING',
         paymentStatus: 'PAID',
         items: {
           create: [{
