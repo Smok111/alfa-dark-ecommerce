@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, UseGuards, Request } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto, UpdateOrderStatusDto } from './dto/order.dto';
+import { CreateOrderDto, UpdateOrderStatusDto, CreateManualSaleDto } from './dto/order.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -21,7 +21,7 @@ export class OrdersController {
   @Post('manual')
   @UseGuards(RolesGuard)
   @Roles('ADMIN')
-  createManualSale(@Request() req, @Body() createManualSaleDto: import('./dto/order.dto').CreateManualSaleDto) {
+  createManualSale(@Request() req, @Body() createManualSaleDto: CreateManualSaleDto) {
     return this.ordersService.createManualSale(req.user.id, createManualSaleDto);
   }
 

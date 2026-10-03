@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateOrderDto, UpdateOrderStatusDto } from './dto/order.dto';
+import { CreateOrderDto, UpdateOrderStatusDto, CreateManualSaleDto } from './dto/order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -23,10 +23,10 @@ export class OrdersService {
     });
   }
 
-  async createManualSale(userId: string, dto: import('./dto/order.dto').CreateManualSaleDto) {
+  async createManualSale(userId: string, dto: CreateManualSaleDto) {
     const product = await this.prisma.product.findUnique({ where: { id: dto.productId } });
     if (!product || product.stock < dto.quantity) {
-      throw new import('@nestjs/common').BadRequestException('Stock insuficiente o producto no encontrado');
+      throw new BadRequestException('Stock insuficiente o producto no encontrado');
     }
 
     await this.prisma.product.update({
