@@ -59,7 +59,7 @@ export const HomePage = () => {
     const fetchData = async () => {
       try {
         const [featuredRes, allRes, catRes] = await Promise.all([
-          api.get('/products', { params: { featured: true, limit: 3 } }),
+          api.get('/products', { params: { featured: true, limit: 6 } }),
           api.get('/products', { params: { limit: 12 } }),
           api.get('/categories')
         ]);
@@ -70,15 +70,15 @@ export const HomePage = () => {
         let all = allRes.data?.data?.data || allRes.data?.data || [];
         if (!Array.isArray(all)) all = [];
 
-        // Si no hay destacados, tomamos los 3 primeros de la lista general
+        // Si no hay destacados, tomamos los 6 primeros de la lista general
         if (featured.length === 0) {
-          featured = all.slice(0, 3);
+          featured = all.slice(0, 6);
         }
-        setExclusiveProducts(featured.slice(0, 3));
+        setExclusiveProducts(featured.slice(0, 6));
         
         // Para el catálogo general en el inicio, mostramos 8 productos,
         // excluyendo los que ya se muestran arriba.
-        const exclusiveIds = new Set(featured.slice(0, 3).map((p: any) => p.id));
+        const exclusiveIds = new Set(featured.slice(0, 6).map((p: any) => p.id));
         const filteredAll = all.filter((p: any) => !exclusiveIds.has(p.id)).slice(0, 8);
         setAllProducts(filteredAll);
         

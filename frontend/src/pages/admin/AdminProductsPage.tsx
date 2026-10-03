@@ -72,6 +72,13 @@ export const AdminProductsPage = () => {
       return showError('Por favor, completa los campos obligatorios');
     }
 
+    if (formData.featured) {
+      const currentFeaturedCount = products.filter(p => p.featured && p.id !== editingId).length;
+      if (currentFeaturedCount >= 6) {
+        return showError('Ya tienes 6 joyas destacadas. Desmarca alguna antes de destacar esta.');
+      }
+    }
+
     setIsSaving(true);
     try {
       let uploadedImageUrl = null;
